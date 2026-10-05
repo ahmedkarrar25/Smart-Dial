@@ -1,4 +1,4 @@
-<h1 align="center">SmartDial</h1>
+<h1 align="center">Smart-Dial</h1>
 
 <p align="center"><b>Desktop control for the CMF Buds Pro 2 smart dial &mdash; seek, scroll and skip on Windows.</b></p>
 
