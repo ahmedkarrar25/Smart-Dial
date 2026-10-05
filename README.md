@@ -1,4 +1,4 @@
-<h1 align="center">SeekDial</h1>
+<h1 align="center">SmartDial</h1>
 
 <p align="center"><b>Desktop control for the CMF Buds Pro 2 smart dial &mdash; seek, scroll and skip on Windows.</b></p>
 
@@ -18,7 +18,7 @@ A small, native Windows app that gives the dial on your earbuds a second job. In
 - **Silent notifications** &mdash; mode-change balloons are sent with no sound.
 - **Start with Windows** &mdash; one checkbox; launches minimized to the tray. Uses the per-user `Run` key, no admin rights.
 - **Live status** &mdash; the window shows the current default output, whether a mode is active, and a dial-click counter, so you can see exactly what is happening.
-- **Lightweight and private** &mdash; event-driven (no polling loop), near-zero idle CPU, no network access, no logging, settings stored locally in `%APPDATA%\SeekDial\settings.ini`.
+- **Lightweight and private** &mdash; event-driven (no polling loop), near-zero idle CPU, no network access, no logging, settings stored locally in `%APPDATA%\SmartDial\settings.ini`.
 - **Single instance, DPI-aware, native** &mdash; plain Win32 and Common Controls v6; launching it twice just brings the window forward.
 
 ## Modes
@@ -32,13 +32,13 @@ A small, native Windows app that gives the dial on your earbuds a second job. In
 
 ## Install / run
 
-Grab `SeekDial.exe` from the [Releases](../../releases) page. There is no installer: put it somewhere permanent (for example `C:\Tools\SeekDial`) and double-click it. If you tick **Start SeekDial with Windows**, don't move the exe afterwards or the startup entry will point to the old location.
+Grab `SmartDial.exe` from the [Releases](../../releases) page. There is no installer: put it somewhere permanent (for example `C:\Tools\SmartDial`) and double-click it. If you tick **Start SmartDial with Windows**, don't move the exe afterwards or the startup entry will point to the old location.
 
 ## Before using
 
 1. **Pair the earbuds** in Windows &rarr; Settings &rarr; Bluetooth & devices &rarr; Add device.
 2. **Make them the default output:** Settings &rarr; System &rarr; Sound &rarr; Output. Prefer the stereo *Headphones* entry over a *Hands-Free* / *Headset* one.
-3. **Launch SeekDial.** If the status says *Waiting*, click **Use current** so the app learns your earbuds' name.
+3. **Launch SmartDial.** If the status says *Waiting*, click **Use current** so the app learns your earbuds' name.
 4. **Pick a mode** (window, tray menu or hotkey). The status line should read *Active*, and the dial-click counter goes up when you turn the dial.
 
 ## Settings
@@ -60,14 +60,14 @@ Requires MinGW-w64 (`g++` and `windres`) on Windows.
 
 ```powershell
 winget install BrechtSanders.WinLibs.POSIX.UCRT   # once, then open a new terminal
-build.bat                                          # produces SeekDial.exe
+build.bat                                          # produces SmartDial.exe
 ```
 
-`build.bat` compiles the resources (icon, manifest, version info) and `seekdial.cpp` into a statically linked executable. MSVC users can compile `seekdial.cpp` with `/DUNICODE /D_UNICODE` and link `ole32 user32 shell32 comctl32 gdi32 advapi32`, adding the resource file.
+`build.bat` compiles the resources (icon, manifest, version info) and `smartdial.cpp` into a statically linked executable. MSVC users can compile `smartdial.cpp` with `/DUNICODE /D_UNICODE` and link `ole32 user32 shell32 comctl32 gdi32 advapi32`, adding the resource file.
 
 ## How it works
 
-The dial doesn't send a key or a custom event. It sends a Bluetooth AVRCP *absolute volume* command, which Windows applies as an ordinary system volume change. SeekDial listens for those changes through the Core Audio API and, while a dial mode is active:
+The dial doesn't send a key or a custom event. It sends a Bluetooth AVRCP *absolute volume* command, which Windows applies as an ordinary system volume change. SmartDial listens for those changes through the Core Audio API and, while a dial mode is active:
 
 1. saves your real volume and parks the system volume at 50%, so the dial always has room to move both ways;
 2. compares each new volume to the parked one to get the direction;
@@ -78,10 +78,10 @@ Because the dial *is* the system volume, normal volume and dial actions can't be
 
 | File | Role |
 |---|---|
-| `seekdial.cpp` | The whole app: audio notifications, device tracking, hotkeys, input injection, window, tray, settings |
-| `seekdial.rc` | Resource script: icon, manifest and version info |
-| `seekdial.manifest` | Visual styles (Common Controls v6) and DPI awareness |
-| `seekdial.ico` | App icon |
+| `smartdial.cpp` | The whole app: audio notifications, device tracking, hotkeys, input injection, window, tray, settings |
+| `smartdial.rc` | Resource script: icon, manifest and version info |
+| `smartdial.manifest` | Visual styles (Common Controls v6) and DPI awareness |
+| `smartdial.ico` | App icon |
 | `build.bat` | One-step build with MinGW-w64 |
 | `LICENSE` | MIT license |
 
@@ -103,7 +103,7 @@ Because the dial *is* the system volume, normal volume and dial actions can't be
 - Works for browsers and desktop apps on the PC the earbuds are connected to; it cannot control a phone.
 - If the process is killed from Task Manager while a dial mode is active, the volume stays at 50%.
 - Developed for the CMF Buds Pro 2; other earbuds that send Bluetooth absolute volume should work if their name matches. Reports are welcome.
-- The keyboard hook only checks whether a key is one of the three volume keys; it never records keystrokes. Run SeekDial as a normal user, not as administrator.
+- The keyboard hook only checks whether a key is one of the three volume keys; it never records keystrokes. Run SmartDial as a normal user, not as administrator.
 
 ### Troubleshooting
 
